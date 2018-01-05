@@ -11,6 +11,8 @@ travis  encrypt DOCKER_HUB_PASSWORD=<password> --add
 ``` 
 **Note: these secrets will be stored as environment variables, and we can use them during our build process** (eg. ```$DOCKER_HUB_EMAIL```) **in your** ```.travis.yml``` **file. For more details see [docs](https://docs.travis-ci.com/user/encryption-keys/)**
 
+**NOTE: ```travis``` is cli command of travis tool. If you use docker image you can't run that with travis! Refer to [image README](https://github.com/MilosSimic/mytravis) how to use docker image**
+
 ## Build Docker image and push to dockerhub
 * To pack our application in docker image, first create ```Dockerfile``` in your project structure with all commands needed for your application.
 * Then we need to add few things to ```.travis.yml``` :
@@ -38,7 +40,7 @@ services:
      - server_port:container_port
 ```
 
-**Note, we can create** ```docker-compose.yml``` **file on server, or create localy than copy to server using** ```scp docker-compose.yml host@address:```
+**Note, we can create** ```docker-compose.yml``` **file on server, or create localy than copy to server using** ```scp docker-compose.yml host@address:```**
 
 * And we need a little bit of bash :). Create a ```deploy.sh``` file with the following content (locally than copy to server, or create on server direcly):
 ```
@@ -60,6 +62,8 @@ We need more security so when Travis finish his job to send command to your host
 ssh-keygen -f deploy_key
 ```
 
+_See [docs](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/#platform-mac) about ssh-keygen for Linux, Windows and Mac_
+
 * Copy the output of the following command:
 ```
 echo "command=./deploy.sh",no-port-forwarding,no-agent-forwarding,no-pty $(cat ./deploy_key.pub)
@@ -71,6 +75,25 @@ echo 'command="./deploy.sh",no-port-forwarding,no-agent-forwarding,no-pty ssh-rs
 ```
 
 **Note:This will make sure the only command allowed for the user connecting with the deploy key is our deployment script.***
+
+* Encrypt the deployment key (you DO NOT want unencrypted private key in your repository):
+```
+travis encrypt-file  ./deploy_key --add
+```
+
+**Note: ```--add ``` option will add the decryption command in your travis file**
+
+* Add it to the project:
+```
+git add deploy_key.enc
+git commit -m ...
+git push
+```
+
+After this command you can check environment variables of your project to see is it stored. Yous hould have something like this:
+
+![Image of senv](images/senv.png)
+
 
 ## Automatic deployment
 Here will be shown how to deploy new software version as new docker image
