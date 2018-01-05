@@ -53,7 +53,24 @@ chmod +x ./deploy.sh
 ```
 
 ## Security
+We need more security so when Travis finish his job to send command to your host machine. So we need some keys to to that.
 
+* Create the deploy key on your machine (leave passphrase empty, press Enter when asking for passphrase):
+```
+ssh-keygen -f deploy_key
+```
+
+* Copy the output of the following command:
+```
+echo "command=./deploy.sh",no-port-forwarding,no-agent-forwarding,no-pty $(cat ./deploy_key.pub)
+```
+
+* Connect to your host and paste output to the .ssh/authorized_keys. You'll end up with a command similar to this:
+```
+echo 'command="./deploy.sh",no-port-forwarding,no-agent-forwarding,no-pty ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC/OAw[...]kQ728t3jxPPiFX** >> ~/.ssh/authorized_keys
+```
+
+**Note:This will make sure the only command allowed for the user connecting with the deploy key is our deployment script.***
 
 ## Automatic deployment
 Here will be shown how to deploy new software version as new docker image
