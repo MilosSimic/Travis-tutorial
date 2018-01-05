@@ -40,7 +40,7 @@ services:
      - server_port:container_port
 ```
 
-**Note, we can create** ```docker-compose.yml``` **file on server, or create localy than copy to server using** ```scp docker-compose.yml host@address:```**
+**Note, we can create** ```docker-compose.yml``` **file on server, or create locally than copy to server using** ```scp docker-compose.yml host@address:```
 
 * And we need a little bit of bash :). Create a ```deploy.sh``` file with the following content (locally than copy to server, or create on server direcly):
 ```
@@ -49,7 +49,7 @@ docker-compose pull
 docker-compose up -d
 ```
 
-* Make the file executable (and send it to your host if created localy using ```scp``` command):
+* Make the file executable (and send to your host using ```scp``` command, if file is created locally):
 ```
 chmod +x ./deploy.sh
 ```
