@@ -1,4 +1,4 @@
-# Travis CI
+# Travis CI [![Built with Spacemacs](https://cdn.rawgit.com/syl20bnr/spacemacs/442d025779da2f62fc86c2082703697714db6514/assets/spacemacs-badge.svg)](http://spacemacs.org)
 Here will be shown how to connect travis with your github project, run tests, add languange, connect Docker and few building steps.
 
 ## Connect Travis
@@ -7,8 +7,6 @@ Here will be shown how to connect travis with your github project, run tests, ad
 * Go to your profile (if travis don't do that), and in list of all public repos choose which repo to connect to Travis CI
 
 ![Allow build project](/images/allow_build.png)
-
-*Now, on every push Travis will be triggered*
 
 ## Add build strategy
 * Add to root of your repository ```.travis.yml``` file. This file will contain build strategy
@@ -41,4 +39,11 @@ script:
   - python tests.py
 ```
 
-You can [customize your build](https://docs.travis-ci.com/user/customizing-the-build) even more.
+* Now, on every push travis will trigger build process. We can observe whole process in _Build History_
+
+You can (and you should) [customize your build](https://docs.travis-ci.com/user/customizing-the-build) even more, to include Docker (build, tag, push) or to do some stuff only if everyting is successful.
+
+## Other links
+* Learn [travis-ci](https://github.com/dwyl/learn-travis/blob/master/README.md#environment-variables-travis.yml)
+* [Travis and Django](https://godjango.com/25-travis-ci-and-coveralls/)
+* Explore The [Travis-CI Configuration File](http://blog.tgrrtt.com/exploring-the-travisci-configuration-file)
