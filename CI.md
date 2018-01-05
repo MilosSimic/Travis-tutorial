@@ -15,13 +15,15 @@ Here will be shown how to connect travis with your github project, run tests, ad
 * Goto project you've connected and click on *More Options > Settings*
 ![Allow build project](/images/options.png)
 
-and in section _General_ click on _Build only if .travis.yml is present_
+and in section _General_ click on _Build only if ```.travis.yml``` is present_
 ![Allow build project](/images/allowed_options.png)
 
 **Note: we should not trigger builds for every branch, in ```.travis.yml``` we should [restrict which branch to build only](https://docs.travis-ci.com/user/customizing-the-build/#Building-Specific-Branches)**
 
 * In section _Environment Variables_ we can store Key-Value pairs (eg. username, password for Dockerhub) to access them add _$_ sign in front of variable name in ```.travis.yml```
-![Allow build project](/images/env.png)
+![Allow build project](/images/env.png**
+
+_We can also use [travis cli](https://docs.travis-ci.com/user/encryption-keys/) tool to encrypt all sensitive informations_ **But note that cli is written in ruby and it might cause problems with windows machines. We can use [Docker image](https://github.com/MilosSimic/mytravis) to solve that problem easy.**
 
 ## Define steps
 * Now we need to fill in ```.travis.yml``` with langunage, usage of external services, etc.
