@@ -2,7 +2,6 @@
 
 ## Setup
 * To deploy your project to custom server using Travis we need to have installed travis cli tool ```gem install travis```, or you can use [Docker image](https://github.com/MilosSimic/mytravis).
-
 * Before using this tool, positionate in directory where ```.travis.yml``` file is.
 * To encrypt your secrets use ```encrypt```command:
 ```
@@ -10,6 +9,29 @@ travis  encrypt DOCKER_HUB_EMAIL=<email> --add
 travis  encrypt DOCKER_HUB_USERNAME=<username> --add
 travis  encrypt DOCKER_HUB_PASSWORD=<password> --add
 ``` 
-**Note: these secrets will be stores as envariement variables, and we can use them during our build process (eg. ```$DOCKER_HUB_EMAIL```) in your ```.travis.yml``` file. For more details see [docs](https://docs.travis-ci.com/user/encryption-keys/)**
+**Note: these secrets will be stored as environment variables, and we can use them during our build process** (eg. ```$DOCKER_HUB_EMAIL```) **in your** ```.travis.yml``` **file. For more details see [docs](https://docs.travis-ci.com/user/encryption-keys/)**
+
+
+## Build Docker image and push to dockerhub
+* To pack our application in docker image, first create ```Dockerfile``` in your project structure with all commands needed for your application.
+* Then we need to add few things to ```.travis.yml```:
+```
+sudo: required
+language: python
+services:
+ - docker
+before_install:
+  - docker login -u "$DOCKER_HUB_USERNAME" -p "$DOCKER_HUB_PASSWORD";
+after_success:
+  - docker build -t $DOCKER_HUB_USERNAME/image_name .
+  - docker push $DOCKER_HUB_USERNAME/image_name:your_tag
+```
+
+**Note: here we are missing steps for running tests, install dependencies explained [elsewhere](CI.md)
+
+## Automatic deployment
+Here will be shown how to deploy new software version as new docker image
+
+
 
 ## More links
