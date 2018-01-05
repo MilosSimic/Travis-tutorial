@@ -136,6 +136,8 @@ after_success:
 
 * Commit and push your change and that should trigger Travis build and deploy to remote host server.
 
+* It is not good thing to run travis for every branch and every build and also to deploy every time. So we need to restrict deploy on changes on master branch. For this Travis provide some environmet variables that we can use to test is push on master branch. You can see details [here](https://stackoverflow.com/questions/27896816/how-to-check-if-master-branch-pushed-with-a-tag-under-travis)
+
 ## More links
 1) [Great tutorial](https://www.linux.com/learn/automatically-deploy-build-images-travis) used to crate this one :D.
 2) [Auto deploy to Travis](https://florianbrinkmann.com/en/3485/deployment-travis-ci/)
