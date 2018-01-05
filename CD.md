@@ -134,4 +134,10 @@ after_success:
   - export SSHPASS=$DEPLOY_PASS
 ```
 
+* Commit and push your change and that should trigger Travis build and deploy to remote host server.
+
 ## More links
+1) [Great tutorial](https://www.linux.com/learn/automatically-deploy-build-images-travis) used to crate this one :D.
+2) [Auto deploy to Travis](https://florianbrinkmann.com/en/3485/deployment-travis-ci/)
+3) [sshpass on travis](https://neemzy.org/articles/deploy-to-your-own-server-through-ssh-with-travis-ci)
+4) [Deployment with Travis](https://oncletom.io/2016/travis-ssh-deploy/)
