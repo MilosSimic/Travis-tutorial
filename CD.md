@@ -83,6 +83,15 @@ travis encrypt-file  ./deploy_key --add
 
 **Note: ```--add ``` option will add the decryption command in your travis file**
 
+* Update ```before_install``` so that Travis is able to extrct key from encrypted key:
+```
+before_install:
+  - docker login -u "$DOCKER_HUB_USERNAME" -p "$DOCKER_HUB_PASSWORD";
+  - openssl aes-256-cbc -K $encrypted_83630750896a_key -iv $encrypted_83630750896a_iv -in deploy_key.enc -out ./deploy_key -d
+```
+
+**Note: ```openssl``` command will be shown as output after successful key encryption. Just follow the instructions**
+
 * Add it to the project:
 ```
 git add deploy_key.enc
@@ -98,6 +107,31 @@ After this command you can check environment variables of your project to see is
 ## Automatic deployment
 Here will be shown how to deploy new software version as new docker image
 
+* Finally, add the following section to your ```.travis.yml ```file:
+```
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: chmod 600 deploy_key && sshpass -e ssh -o StrictHostKeyChecking=no -i ./deploy_key
+    $HOST@$HOST_IP './deploy.sh'
+  on:
+    branch: master
+```
 
+* Add sshpass addon. This addon will ensure that Travis enter password on ssh call to your remote host:
+```
+addons:
+  apt:
+    packages:
+    - sshpass
+```
+
+* Update after_success to this. new variable SSHPASS will store host password:
+```
+after_success:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
+  - docker push $DOCKER_USERNAME/simple_flask_app:latest
+  - export SSHPASS=$DEPLOY_PASS
+```
 
 ## More links
