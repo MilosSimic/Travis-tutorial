@@ -40,7 +40,7 @@ services:
      - server_port:container_port
 ```
 
-**Note, we can create** ```docker-compose.yml``` **file on server, or create locally than copy to server using** ```scp docker-compose.yml host@address:```
+**Note, we can create** ```docker-compose.yml``` **file on server, or create locally than copy to server using** ```scp docker-compose.yml host@address:path_where_to_send```
 
 * And we need a little bit of bash :). Create a ```deploy.sh``` file with the following content (locally than copy to server, or create on server direcly):
 ```
